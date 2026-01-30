@@ -10,8 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 0) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_29_102811) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
+  create_table "channels", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "description"
+    t.string "name"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.bigint "channel_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["channel_id"], name: "index_subscriptions_on_channel_id"
+    t.index ["user_id", "channel_id"], name: "index_subscriptions_on_user_id_and_channel_id", unique: true
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.integer "age"
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "name"
+    t.string "password"
+    t.string "role"
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "subscriptions", "channels"
+  add_foreign_key "subscriptions", "users"
 end

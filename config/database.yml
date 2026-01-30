@@ -1,8 +1,8 @@
 default: &default
   adapter: postgresql
   max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: harshwardhan
-  password: Hys1807
+  username: <%= ENV["USERNAME"] %>
+  password: <%= ENV["PASSWORD"]  %>
   timeout: 5000
   host: localhost
 
