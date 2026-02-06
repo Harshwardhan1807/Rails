@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_29_102811) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_06_083854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -18,7 +18,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_29_102811) do
     t.datetime "created_at", null: false
     t.string "description"
     t.string "name"
+    t.bigint "owner_id", null: false
     t.datetime "updated_at", null: false
+    t.index ["owner_id"], name: "index_channels_on_owner_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -41,6 +43,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_29_102811) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "videos", force: :cascade do |t|
+    t.bigint "channel_id", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.integer "duration"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.string "video_url"
+    t.index ["channel_id"], name: "index_videos_on_channel_id"
+  end
+
+  add_foreign_key "channels", "users", column: "owner_id"
   add_foreign_key "subscriptions", "channels"
   add_foreign_key "subscriptions", "users"
+  add_foreign_key "videos", "channels"
 end
