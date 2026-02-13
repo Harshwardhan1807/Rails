@@ -1,0 +1,6 @@
+<h1><%= @channel.name %></h1>
+
+<p><strong>Description:</strong> <%= @channel.description %></p>
+<p><strong>Owner:</strong> <%= @channel.owner.name %></p>
+
+<%= link_to 'Back to Channels', channels_path %>

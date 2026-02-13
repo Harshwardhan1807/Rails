@@ -1,0 +1,17 @@
+<h3>User Details</h3>
+<p><strong>Name:</strong> <%= @user.name %></p>
+<p><strong>Email:</strong> <%= @user.email %></p>
+<p><strong>Age:</strong> <%= @user.age %></p>
+<p><strong>Role:</strong> <%= @user.role %></p>
+<h3>Subscribed Channels</h3>
+<ul>
+  <% @user.channels.each do |channel| %>
+    <li><%= channel.name %></li>
+  <% end %>
+</ul>
+<h3>Owned Channels</h3>
+<ul>
+  <% @user.owned_channels.each do |channel| %>
+    <li><%= channel.name %></li>
+  <% end %>
+</ul>

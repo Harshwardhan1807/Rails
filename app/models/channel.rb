@@ -1,5 +1,5 @@
 class Channel < ApplicationRecord
-  has_many :subscriptions
+  has_many :subscriptions, dependent: :destroy
   has_many :users, through: :subscriptions
   has_many :videos, dependent: :destroy
   belongs_to :owner, class_name: "User", foreign_key: "owner_id"
