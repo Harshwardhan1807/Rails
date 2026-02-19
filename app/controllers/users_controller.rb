@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user
+  before_action :authenticate_user!, except: [:home, :index]
+
   def home
   end
 
@@ -24,13 +25,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to user_path(@user)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :age, :role)
-  end
-
-  def set_user
-    @user = User.find_by(id: session[:user_id])
   end
 end

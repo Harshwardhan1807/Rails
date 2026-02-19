@@ -24,6 +24,17 @@
   </head>
 
   <body>
+    <% if user_signed_in? %>
+      <div style="text-align: center;">
+        Logged in as <%= current_user.name  %> (<%= current_user.role.capitalize %>)
+      &nbsp;|&nbsp;
+      <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete } %>
+      </div>
+    <% else %>
+      <%= link_to "Login", new_user_session_path %>
+    <% end %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
     <%= yield %>
   </body>
 </html>

@@ -15,3 +15,8 @@
     <li><%= channel.name %></li>
   <% end %>
 </ul>
+
+<% if current_user == @user || current_user&.role == "admin" %>
+<%= link_to "Edit User", edit_user_path(@user) %> |
+<% end %>
+<%= link_to "Back to Users", users_path %>
