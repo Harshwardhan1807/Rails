@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:home, :index]
+  before_action :authenticate_user!, except: [:home, :index, :new, :create]
 
   def home
   end
@@ -9,17 +9,17 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    @users = User.all.order(:id)
   end
 
-  def new
-    @user = User.new
-  end
+  # def new
+  #   @user = User.new
+  # end
 
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to users_path
+      redirect_to users_path, notice: "User was successfully created."
     else
       render :new, status: :unprocessable_entity
     end

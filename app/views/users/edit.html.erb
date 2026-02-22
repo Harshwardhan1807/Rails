@@ -1,5 +1,14 @@
 <h2>Edit User</h2>
 
+<% if @user.errors.any? %>
+    <h2>Errors:</h2>
+    <ul>
+        <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+        <% end %>
+    </ul>
+<% end %>
+
 <%= render "form", user: @user %>
 <%= link_to "Back to User Details", user_path(@user) %> |
 <%= link_to "Back to Users", users_path %>
