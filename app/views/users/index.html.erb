@@ -1,0 +1,17 @@
+<h1>Users</h1>
+
+<ul>
+  <% @users.each do |user| %>
+    <li>
+      <strong><%= link_to(user.name, user_path(user)) %></strong> (<%= user.email %>)
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Channels", channels_path %> |
+
+
+<% if not user_signed_in? %>
+  <%= link_to "New User", new_user_registration_path %> |
+<% end %>
+<%= link_to "Home", root_path %>

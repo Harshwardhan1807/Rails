@@ -1,0 +1,12 @@
+<h1>Channels</h1>
+
+<ul>
+    <% @channels.each do |channel| %>
+        <li>
+            <strong><%= link_to(channel.name, channel_path(channel)) %></strong> (<%= channel.description %>)
+        </li>
+    <% end %>
+</ul>
+
+<%= link_to "New Channel", new_channel_path %> | 
+<%= link_to "Back to Users", users_path %>
