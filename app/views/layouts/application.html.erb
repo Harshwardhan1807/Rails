@@ -19,22 +19,31 @@
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_pack_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_pack_tag "application" , defer: true%>
+    <script>
+      window.currentUser = <%= current_user ? current_user.to_json.html_safe : 'null' %>;
+      window.RailsPaths = {
+      login: "<%= new_user_session_path %>",
+      logout: "<%= destroy_user_session_path %>"
+    };
+    </script>
   </head>
 
   <body>
+    <% unless current_page?(root_path) %>
     <% if user_signed_in? %>
       <div style="text-align: center;">
-        Logged in as <%= current_user.name  %> (<%= current_user.role.capitalize %>)
-      &nbsp;|&nbsp;
-      <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete } %>
+        Logged in as <%= current_user.name %> (<%= current_user.role.capitalize %>)
+        &nbsp;|&nbsp;
+        <%= button_to "Logout", destroy_user_session_path, method: :delete %>
       </div>
     <% else %>
-      <%= link_to "Login", new_user_session_path %>
+      <div style="text-align: center;">
+        <%= link_to "Login", new_user_session_path %>
+      </div>
     <% end %>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+  <% end %>
     <%= yield %>
   </body>
 </html>
