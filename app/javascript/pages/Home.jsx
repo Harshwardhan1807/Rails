@@ -9,9 +9,6 @@ const Home = () => {
       <p style={styles.subtitle}>
         A simple YouTube-like streaming platform
       </p>
-      <a href="/users" style={{ color: "#fff", textDecoration: "underline", marginTop: "20px" }}>
-        All Users
-      </a>
     </div>
   );
 };

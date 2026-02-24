@@ -1,4 +1,5 @@
 class ChannelsController < ApplicationController
+  before_action :authenticate_user!, except: [:index]
   def index
     @channels = Channel.all
   end
@@ -26,10 +27,4 @@ class ChannelsController < ApplicationController
     params.require(:channel).permit(:name, :description, :owner_id)
   end
 
-  def user_role_check
-    unless User.find_by(id: params[:owner_id]).role in ["creator", "admin"]
-      errors.add(:owner_id, "must belong to a user with creator or admin role")
-      throw :abort
-    end
-  end
 end

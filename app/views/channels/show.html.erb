@@ -2,5 +2,12 @@
 
 <p><strong>Description:</strong> <%= @channel.description %></p>
 <p><strong>Owner:</strong> <%= @channel.owner.name %></p>
+<p><strong>Subscribers:</strong> <%= @channel.subscriptions.count %></p>
+<p><strong>Created At:</strong> <%= @channel.created_at.strftime("%B %d, %Y") %></p>
 
-<%= link_to 'Back to Channels', channels_path %>
+<%= link_to "Back to Channels", channels_path, style: "color: #2980b9; text-decoration: none;" %><br><br>
+<% if user_signed_in? && current_user.subscriptions.exists?(channel: @channel) %>
+  <%= button_to "Unsubscribe", channel_unsubscription_path(@channel), method: :delete, style: "color: #2980b9; text-decoration: none;" %>
+<% elsif user_signed_in? %>
+  <%= button_to "Subscribe", channel_subscription_path(@channel), method: :post, style: "color: #2980b9; text-decoration: none;" %>
+<% end %>           

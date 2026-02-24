@@ -1,12 +1,16 @@
-<h1>Channels</h1>
+<h1 style="font-family: sans-serif; color: #333;">Channels</h1>
 
-<ul>
-    <% @channels.each do |channel| %>
-        <li>
-            <strong><%= link_to(channel.name, channel_path(channel)) %></strong> (<%= channel.description %>)
-        </li>
-    <% end %>
+<ul style="padding: 0; list-style: none;">
+  <% @channels.each do |channel| %>
+    <li style="margin: 6px 0;">
+      <strong><%= link_to(channel.name, channel_path(channel), style: "color: #2980b9; text-decoration: none;") %></strong> (<%= channel.description %>)
+    </li>
+  <% end %>
 </ul>
 
-<%= link_to "New Channel", new_channel_path %> | 
-<%= link_to "Back to Users", users_path %>
+<div style="margin-top: 12px;">
+  <% if user_signed_in? && (current_user.role == "admin" || current_user.role == "creator") %>
+    <%= link_to "New Channel", new_channel_path, style: "margin-right: 10px; color: #2980b9; text-decoration: none;" %>
+  <% end %>
+  <%= link_to "Back to Users", users_path, style: "color: #2980b9; text-decoration: none;" %>
+</div>

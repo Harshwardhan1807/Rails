@@ -32,18 +32,28 @@
 
   <body>
     <% unless current_page?(root_path) %>
-    <% if user_signed_in? %>
-      <div style="text-align: center;">
-        Logged in as <%= current_user.name %> (<%= current_user.role.capitalize %>)
-        &nbsp;|&nbsp;
-        <%= button_to "Logout", destroy_user_session_path, method: :delete %>
-      </div>
-    <% else %>
-      <div style="text-align: center;">
-        <%= link_to "Login", new_user_session_path %>
-      </div>
+      <% if user_signed_in? %>
+        <div style="text-align: center;">
+          Logged in as <%= current_user.name %> (<%= current_user.role.capitalize %>)
+          &nbsp;|&nbsp;
+          <%= button_to "Logout", destroy_user_session_path, method: :delete %>
+        </div>
+      <% else %>
+        <div style="text-align: center;">
+          <%= link_to "Login", new_user_session_path %>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
     <%= yield %>
+    <% if notice %>
+      <p class="notice"><%= notice %> 
+        <%= link_to "x", "#", onclick: "this.parentElement.style.display='none'; return false;" %>
+      </p>
+    <% end %>
+    <% if alert %>
+      <p class="alert"><%= alert %>
+        <%= link_to "x", "#", onclick: "this.parentElement.style.display='none'; return false;"  %>
+      </p>
+    <% end %>
   </body>
 </html>
