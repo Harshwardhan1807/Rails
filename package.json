@@ -1,0 +1,12 @@
+{
+  "packageManager": "npm@10.8.2",
+  "name": "app",
+  "private": true,
+  "version": "0.1.0",
+  "browserslist": [
+    "defaults"
+  ],
+  "dependencies": {
+    "shakapacker": "9.5.0"
+  }
+}

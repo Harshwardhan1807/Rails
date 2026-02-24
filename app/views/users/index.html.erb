@@ -1,17 +1,17 @@
-<h1>Users</h1>
+<h1 style="font-family: sans-serif; color: #333;">Users</h1>
 
-<ul>
+<ul style="padding: 0; list-style: none;">
   <% @users.each do |user| %>
-    <li>
-      <strong><%= link_to(user.name, user_path(user)) %></strong> (<%= user.email %>)
+    <li style="margin: 6px 0;">
+      <strong><%= link_to(user.name, user_path(user), style: "color: #2980b9; text-decoration: none;") %></strong> (<%= user.email %>)
     </li>
   <% end %>
 </ul>
 
-<%= link_to "Channels", channels_path %> |
-
-
-<% if not user_signed_in? %>
-  <%= link_to "New User", new_user_registration_path %> |
-<% end %>
-<%= link_to "Home", root_path %>
+<div style="margin-top: 12px;">
+  <%= link_to "Channels", channels_path, style: "margin-right: 10px; color: #2980b9; text-decoration: none;" %>
+  <% if not user_signed_in? %>
+    <%= link_to "New User", new_user_registration_path, style: "margin-right: 10px; color: #2980b9; text-decoration: none;" %>
+  <% end %>
+  <%= link_to "Home", root_path, style: "color: #2980b9; text-decoration: none;" %>
+</div>
