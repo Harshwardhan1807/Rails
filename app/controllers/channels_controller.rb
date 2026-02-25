@@ -1,10 +1,15 @@
 class ChannelsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_channel, only: [:show, :edit, :update]
+
   def index
-    @channels = Channel.all
+    @channels = Channel.order(:id).page(params[:page]).per(8)
   end
 
   def show
-    @channel = Channel.find(params[:id])
+  end
+
+  def edit
   end
 
   def new
@@ -20,16 +25,21 @@ class ChannelsController < ApplicationController
     end
   end
 
+  def update
+    if @channel.update(channel_params)
+      redirect_to channel_path(@channel)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def channel_params
     params.require(:channel).permit(:name, :description, :owner_id)
   end
 
-  def user_role_check
-    unless User.find_by(id: params[:owner_id]).role in ["creator", "admin"]
-      errors.add(:owner_id, "must belong to a user with creator or admin role")
-      throw :abort
-    end
+  def set_channel
+    @channel = Channel.find(params[:id])
   end
 end

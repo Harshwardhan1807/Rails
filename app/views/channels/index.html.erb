@@ -3,10 +3,15 @@
 <ul style="padding: 0; list-style: none;">
   <% @channels.each do |channel| %>
     <li style="margin: 6px 0;">
-      <strong><%= link_to(channel.name, channel_path(channel), style: "color: #2980b9; text-decoration: none;") %></strong> (<%= channel.description %>)
+      <strong><%= link_to(channel.name, channel_path(channel), style: "color: #2980b9; text-decoration: none;") %></strong>
+      (<%= channel.description %>)
     </li>
   <% end %>
 </ul>
+
+<div style="margin-top: 15px;">
+  <%= paginate @channels %>
+</div>
 
 <div style="margin-top: 12px;">
   <% if user_signed_in? && (current_user.role == "admin" || current_user.role == "creator") %>

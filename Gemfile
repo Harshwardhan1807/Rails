@@ -70,3 +70,5 @@ gem "devise"
 gem "faker"
 
 gem "shakapacker", "~> 9.5"
+gem "cssbundling-rails"
+gem "kaminari"

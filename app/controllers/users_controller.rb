@@ -4,24 +4,35 @@ class UsersController < ApplicationController
   def home
   end
 
-  def show
-    @user = User.find(params[:id])
-  end
-
   def index
     @users = User.all.order(:id)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @users }
+    end
   end
 
-  # def new
-  #   @user = User.new
-  # end
+  def show
+    @user = User.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @user }
+    end
+  end
 
   def create
     @user = User.new(user_params)
-    if @user.save
-      redirect_to users_path, notice: "User was successfully created."
-    else
-      render :new, status: :unprocessable_entity
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to users_path, notice: "User was successfully created." }
+        format.json { render json: @user, status: :created }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -31,17 +42,26 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params)
-      redirect_to user_path(@user)
-    else
-      render :edit, status: :unprocessable_entity
+
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to user_path(@user) }
+        format.json { render json: @user, status: :ok }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   def destroy
     @user = User.find(params[:id])
     @user.destroy
-    redirect_to users_path, notice: "User was successfully deleted."
+
+    respond_to do |format|
+      format.html { redirect_to users_path, notice: "User was successfully deleted." }
+      format.json { head :no_content }
+    end
   end
 
   private

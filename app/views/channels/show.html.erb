@@ -5,6 +5,10 @@
 <p><strong>Subscribers:</strong> <%= @channel.subscriptions.count %></p>
 <p><strong>Created At:</strong> <%= @channel.created_at.strftime("%B %d, %Y") %></p>
 
+<% if user_signed_in? && current_user.role == "admin" %>
+  <%= link_to "Edit Channel", edit_channel_path(@channel), style: "color: #2980b9; text-decoration: none;" %>&nbsp;|&nbsp;
+<% end %>
+
 <%= link_to "Back to Channels", channels_path, style: "color: #2980b9; text-decoration: none;" %><br><br>
 <% if user_signed_in? && current_user.subscriptions.exists?(channel: @channel) %>
   <%= button_to "Unsubscribe", channel_unsubscription_path(@channel), method: :delete, style: "color: #2980b9; text-decoration: none;" %>
