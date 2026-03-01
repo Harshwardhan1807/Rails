@@ -21,6 +21,10 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <style>
+      .main-container {
+        max-width: 900px;
+        margin: 40px auto;
+      }
       .pagination {
         display: flex;
         justify-content: center;
@@ -44,10 +48,24 @@
         color: white;
         border-color: #2980b9;
       }
+      .flash-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1050;
+      }
+
+      .flash-message {
+        min-width: 250px;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
     </style>
   </head>
 
-  <body>
+  <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
       <div class="container-fluid">
 
@@ -80,11 +98,17 @@
                 <%= link_to "All Channels", channels_path, class: "btn btn-primary btn-sm" %>
               </li>
 
+              <li class="nav-item ms-3">
+                <%= link_to "All Users", users_path, class: "btn btn-primary btn-sm" %>
+
             </ul>
           <% else %>
             <ul class="navbar-nav">
               <li class="nav-item">
                 <%= link_to "Login", new_user_session_path, class: "btn btn-primary btn-sm" %>
+              </li>
+              <li class="nav-item ms-3">
+                <%= link_to "All Channels", channels_path, class: "btn btn-primary btn-sm" %>
               </li>
             </ul>
           <% end %>
@@ -93,16 +117,33 @@
       </div>
     </nav>
 
-    <% if notice %>
-      <p class="notice"><%= notice %> 
-        <%= link_to "x", "#", onclick: "this.parentElement.style.display='none'; return false;" %>
-      </p>
-    <% end %>
-    <% if alert %>
-      <p class="alert"><%= alert %>
-        <%= link_to "x", "#", onclick: "this.parentElement.style.display='none'; return false;"  %>
-      </p>
-    <% end %>
-    <%= yield %>
+    <div class="flash-container">
+      <% if notice %>
+        <div class="flash-message alert alert-success shadow">
+          <%= notice %>
+          <button type="button" class="btn-close ms-3"
+            onclick="this.parentElement.style.display='none'"></button>
+        </div>
+      <% end %>
+
+      <% if alert %>
+        <div class="flash-message alert alert-danger shadow">
+          <%= alert %>
+          <button type="button" class="btn-close ms-3"
+            onclick="this.parentElement.style.display='none'"></button>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="main-container">
+      <%= yield %>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-4 mt-auto">
+      <div class="container">
+        © <%= Time.current.year %> Streaming Platform. All rights reserved.
+      </div>
+    </footer>
+
   </body>
 </html>

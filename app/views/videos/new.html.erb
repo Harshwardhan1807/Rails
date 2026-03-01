@@ -1,0 +1,38 @@
+<%# t.text "description"
+t.integer "duration"
+t.string "title"
+t.string "video_url" %>
+<h1>New Video for Channel: <%= @channel.name %></h1>
+
+<% if @video.errors.any? %>
+    <h2>Errors:</h2>
+    <ul>
+        <% @video.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+        <% end %>
+    </ul>
+<% end %>
+
+<%= form_with model: [@channel, @video] do |form| %>
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 3 %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :duration, "Duration (minutes)", class: "form-label" %>
+    <%= form.number_field :duration, class: "form-control" %>
+  </div>
+  
+  <div class="mb-3">
+      <%= form.label :video_url, class: "form-label" %>
+      <%= form.text_field :video_url, class: "form-control" %>
+  </div>
+  <%= form.submit "Create Video", class: "btn btn-primary" %>
+  <%= link_to "Back to Channel", channel_path(@channel), class: "btn btn-secondary ms-2" %>
+<% end %>

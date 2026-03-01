@@ -1,10 +1,12 @@
-<%# Partial for channel form %>
-<%= form_with model: @channel do |form| %>
-  <% if @channel.errors.any? %>
+<%= form_with model: channel do |form| %>
+
+  <% if channel.errors.any? %>
     <div class="alert alert-danger">
-      <h4><%= pluralize(@channel.errors.count, "error") %> prohibited this channel from being saved:</h4>
-      <ul>
-        <% @channel.errors.full_messages.each do |message| %>
+      <h5 class="mb-2">
+        <%= pluralize(channel.errors.count, "error") %> prevented this channel from being saved:
+      </h5>
+      <ul class="mb-0">
+        <% channel.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
@@ -16,15 +18,13 @@
     <%= form.text_field :name, class: "form-control" %>
   </div>
 
-  <div class="mb-3">
+  <div class="mb-4">
     <%= form.label :description, class: "form-label" %>
     <%= form.text_area :description, class: "form-control", rows: 3 %>
   </div>
 
-  <div class="mb-3">
-    <%= form.label :owner_id, class: "form-label" %>
-    <%= form.text_field :owner_id, class: "form-control" %>
+  <div>
+    <%= form.submit class: "btn btn-primary me-2" %>
   </div>
 
-  <%= form.submit class: "btn btn-primary" %>
 <% end %>

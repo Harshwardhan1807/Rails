@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Authentication</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body style="margin: 0; background-color: #f8f9fa;">
+
+    <div style="min-height: 100vh; display: flex; justify-content: center; align-items: center;">
+
+      <div class="card shadow border-0" style="width: 100%; max-width: 420px;">
+        <div class="card-body p-4">
+          <%= yield %>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+</html>

@@ -1,9 +1,9 @@
 class ChannelsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index]
   before_action :set_channel, only: [:show, :edit, :update]
 
   def index
-    @channels = Channel.order(:id).page(params[:page]).per(8)
+    @channels = Channel.order(:id).page(params[:page]).per(7)
   end
 
   def show
@@ -17,7 +17,7 @@ class ChannelsController < ApplicationController
   end
 
   def create
-    @channel = Channel.new(channel_params)
+    @channel = current_user.owned_channels.build(channel_params)
     if @channel.save
       redirect_to channels_path
     else
@@ -36,10 +36,14 @@ class ChannelsController < ApplicationController
   private
 
   def channel_params
-    params.require(:channel).permit(:name, :description, :owner_id)
+    params.require(:channel).permit(:name, :description)
   end
 
   def set_channel
-    @channel = Channel.find(params[:id])
+    begin
+      @channel = Channel.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to channels_path, alert: "Channel not found"
+    end
   end
 end
