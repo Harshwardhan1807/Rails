@@ -8,19 +8,12 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validate :email_is_valid
   validates :password, length: { minimum: 4 }
-  validates :role, presence: true
-  validate :check_role
+  validates :role, presence: true, inclusion: { in: %w[admin creator viewer], message: "%{value} is not a valid role" }
   validates :age, numericality: { greater_than: 5, message: "must be greater than 5" }
 
   def email_is_valid
     unless email =~ /[^@\s]+@[^@\s]+.[^@\s]+/
       errors.add(:email, "#{email} is not a valid email address")
-    end
-  end
-
-  def check_role
-    if not ["admin", "viewer", "creator"].include?(role) and role.present?
-      errors.add(:role, "#{role} is not a valid role")
     end
   end
 end

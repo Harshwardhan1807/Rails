@@ -15,6 +15,19 @@ class VideosController < ApplicationController
     end
   end
 
+  def edit
+    @video = @channel.videos.find(params[:id])
+  end
+
+  def update
+    @video = @channel.videos.find(params[:id])
+    if @video.update(video_params)
+      redirect_to channel_path(@channel), notice: "Video updated successfully"
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def video_params

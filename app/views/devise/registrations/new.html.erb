@@ -37,10 +37,7 @@
 
     <div class="mb-4">
       <%= f.label :role, class: "form-label" %>
-      <%= f.select :role,
-                   options_for_select([["Creator", "creator"], ["Viewer", "viewer"]]),
-                   {},
-                   class: "form-select" %>
+      <%= f.select :role, options_for_select([["Creator", "creator"], ["Viewer", "viewer"]]), {}, class: "form-select" %>
     </div>
 
     <div>

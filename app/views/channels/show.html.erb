@@ -43,8 +43,15 @@
           <div>
             <strong><%= video.title %></strong>
             <span class="text-muted">(<%= video.duration %> mins)</span>
+            <p class="mb-1 text-muted">
+              <%= video.description %>
+            </p>
           </div>
-          <%= link_to "Watch", video.video_url, target: "_blank", class: "btn btn-sm btn-outline-dark" %>
+
+          <div class="d-flex gap-2">
+            <%= link_to "Watch", video.video_url, target: "_blank", class: "btn btn-sm btn-outline-dark" %>
+            <%= link_to "Edit", edit_channel_video_path(@channel, video), class: "btn btn-sm btn-outline-primary" %>
+          </div>
         </li>
       <% end %>
     </ul>

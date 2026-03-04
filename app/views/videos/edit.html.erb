@@ -1,4 +1,4 @@
-<h1>New Video for Channel: <%= @channel.name %></h1>
+<h1>Edit Video: <%= @video.title %></h1>
 
 <% if @video.errors.any? %>
     <h2>Errors:</h2>
@@ -9,7 +9,10 @@
     </ul>
 <% end %>
 
-<%= form_with model: [@channel, @video] do |form| %>
+
+
+<%= form_with model: [@channel, @video], class: "w-100" do |form| %>
+
   <div class="row mb-3">
     <div class="col-md-6">
       <%= form.label :title, class: "form-label fw-semibold" %>
@@ -33,7 +36,8 @@
   </div>
 
   <div class="d-flex gap-2">
-    <%= form.submit "Create Video", class: "btn btn-primary px-4" %>
+    <%= form.submit "Update Video", class: "btn btn-primary px-4" %>
     <%= link_to "Back to Channel", channel_path(@channel), class: "btn btn-secondary ms-2" %>
   </div>
+
 <% end %>
