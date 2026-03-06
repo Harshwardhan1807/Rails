@@ -6,7 +6,7 @@
     <% @channels.each do |channel| %>
       <li class="list-group-item">
         <strong>
-          <%= link_to channel.name, channel_path(channel), class: "text-decoration-none" %>
+          <%= link_to channel.name, channel_path(channel, page: params[:page]), class: "text-decoration-none" %>
         </strong>
         <div class="text-muted small">
           <%= channel.description %>
