@@ -28,10 +28,16 @@ class VideosController < ApplicationController
     end
   end
 
+  def destroy
+    @video = @channel.videos.find(params[:id])
+    @video.destroy
+    redirect_to channel_path(@channel), notice: "Video deleted successfully"
+  end
+
   private
 
   def video_params
-    params.require(:video).permit(:title, :description, :duration, :video_url)
+    params.require(:video).permit(:title, :description, :duration, :video_file)
   end
 
   def set_channel
