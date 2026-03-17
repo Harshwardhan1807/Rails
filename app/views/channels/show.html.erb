@@ -30,22 +30,27 @@
   </div>
 
   <h4 class="mb-3">Videos</h4>
-
   <% if @channel.videos.any? %>
     <ul class="list-group">
       <% @channel.videos.each do |video| %>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <div>
-            <strong><%= video.title %></strong>
-            <span class="text-muted">(<%= video.duration %> mins)</span>
-            <p class="mb-1 text-muted">
-              <%= video.description %>
-            </p>
+        <li class="list-group-item">
+
+          <div class="d-flex justify-content-between">
+            <div>
+              <strong><%= video.title %></strong>
+              <span class="text-muted">(<%= video.duration %> mins)</span>
+            </div>
+            <%= link_to "Edit", edit_channel_video_path(@channel, video), class: "btn btn-sm btn-outline-primary" %>
           </div>
 
-          <div class="d-flex gap-2">
-            <%= link_to "Watch", video.video_url, target: "_blank", class: "btn btn-sm btn-outline-dark" %>
-            <%= link_to "Edit", edit_channel_video_path(@channel, video), class: "btn btn-sm btn-outline-primary" %>
+          <p class="text-muted">
+            <%= video.description %>
+          </p>
+          
+          <div class="mt-2">
+            <video width="420" controls>
+              <source src="<%= url_for(video.video_file) %>">
+            </video>
           </div>
         </li>
       <% end %>
