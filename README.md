@@ -1,24 +1,9 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a Ruby on Rails application for a video networking platform. It allows users to sign up, create channels, upload videos, and subscribe to channels. The application includes features such as user authentication, channel management, video management, and subscription toggling.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Features
+- User authentication (sign up, log in, log out)
+- Channel creation and management
+- Video upload and management
+- Subscription system for channels
