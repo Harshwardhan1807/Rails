@@ -7,3 +7,9 @@ This is a Ruby on Rails application for a video networking platform. It allows u
 - Channel creation and management
 - Video upload and management
 - Subscription system for channels
+
+## Technologies Used
+- Ruby on Rails
+- PostgreSQL
+- Devise for authentication
+- Active Storage for video uploads
