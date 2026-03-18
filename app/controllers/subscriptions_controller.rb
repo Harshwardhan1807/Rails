@@ -1,16 +1,18 @@
 class SubscriptionsController < ApplicationController
   before_action :authenticate_user!
 
-  def create
+  def toggle
     @channel = Channel.find(params[:id])
-    @subscription = current_user.subscriptions.create(channel: @channel)
-    redirect_to @channel, notice: "Subscribed successfully"
-  end
+    subscription = current_user.subscriptions.find_by(channel: @channel)
 
-  def destroy
-    @channel = Channel.find(params[:id])
-    @subscription = current_user.subscriptions.find_by(channel: @channel)
-    @subscription.destroy if @subscription
-    redirect_to @channel, notice: "Unsubscribed successfully"
+    if subscription
+      subscription.destroy
+      notice = "Unsubscribed successfully"
+    else
+      current_user.subscriptions.create(channel: @channel)
+      notice = "Subscribed successfully"
+    end
+
+    redirect_to @channel, notice: notice
   end
 end
