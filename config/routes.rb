@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   devise_for :users
   resources :users
   resources :channels do
+    member do
+      post :toggle_subscription, to: "subscriptions#toggle"
+    end
     resources :videos, only: [:new, :create, :edit, :update, :destroy]
   end
-  post "channels/:id/subscribe", to: "subscriptions#create", as: :channel_subscription
-  delete "channels/:id/unsubscribe", to: "subscriptions#destroy", as: :channel_unsubscription
-
   root "users#home"
 end
