@@ -1,21 +1,17 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:home, :create]
+  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :authorize_user, only: [:show, :update, :destroy]
 
   def home
   end
 
   def index
+    authorize User
     @users = User.all.order(:id)
-    if current_user.role != "admin"
-      redirect_to root_path, alert: "You are not authorized to access this page."
-    end
   end
 
   def show
-    @user = User.find(params[:id])
-    if current_user.role != "admin" && current_user != @user
-      redirect_to root_path, alert: "You are not authorized to access this page."
-    end
   end
 
   def create
@@ -29,8 +25,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
-
     if @user.update(user_params)
       redirect_to user_path(@user)
     else
@@ -39,7 +33,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
     redirect_to users_path, notice: "User was successfully deleted."
   end
@@ -48,5 +41,17 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :age, :role)
+  end
+
+  def set_user
+    begin
+      @user = User.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to users_path, alert: "You are not authorized to access this page."
+    end
+  end
+
+  def authorize_user
+    authorize @user
   end
 end

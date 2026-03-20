@@ -16,4 +16,8 @@ class User < ApplicationRecord
       errors.add(:email, "#{email} is not a valid email address")
     end
   end
+
+  def admin?
+    role == "admin"
+  end
 end

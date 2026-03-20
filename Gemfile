@@ -75,3 +75,5 @@ gem "kaminari"
 gem "active_storage_validations"
 gem "rspec-rails"
 gem "pry-byebug"
+
+gem "pundit", "~> 2.5"

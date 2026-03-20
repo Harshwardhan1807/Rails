@@ -1,6 +1,7 @@
 class ChannelsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_channel, only: [:show, :edit, :update]
+  before_action :authorize_channel, only: [:edit, :update]
 
   def index
     @channels = Channel.order(:id).page(params[:page]).per(7)
@@ -45,5 +46,9 @@ class ChannelsController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       redirect_to channels_path, alert: "Channel not found"
     end
+  end
+
+  def authorize_channel
+    authorize @channel
   end
 end

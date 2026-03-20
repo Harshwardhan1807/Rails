@@ -20,7 +20,7 @@
   </div>
 
   <div>
-    <% if user_signed_in? && (current_user.role == "admin" || current_user.role == "creator") %>
+    <% if user_signed_in? && (current_user.admin? || current_user.role == "creator") %>
       <%= link_to "New Channel", new_channel_path, class: "btn btn-primary me-2" %>
     <% end %>
 
