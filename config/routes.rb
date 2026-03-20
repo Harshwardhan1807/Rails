@@ -8,4 +8,5 @@ Rails.application.routes.draw do
     resources :videos, only: [:new, :create, :edit, :update, :destroy]
   end
   root "users#home"
+  match "*path", to: "application#not_found", via: :all
 end

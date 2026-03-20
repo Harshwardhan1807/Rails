@@ -1,6 +1,8 @@
 class VideosController < ApplicationController
   before_action :authenticate_user!
   before_action :set_channel
+  before_action :set_video, only: [:edit, :update, :destroy]
+  before_action :authorize_video, except: [:new, :create]
 
   def new
     @video = @channel.videos.new
@@ -16,11 +18,9 @@ class VideosController < ApplicationController
   end
 
   def edit
-    @video = @channel.videos.find(params[:id])
   end
 
   def update
-    @video = @channel.videos.find(params[:id])
     if @video.update(video_params)
       redirect_to channel_path(@channel), notice: "Video updated successfully"
     else
@@ -29,7 +29,6 @@ class VideosController < ApplicationController
   end
 
   def destroy
-    @video = @channel.videos.find(params[:id])
     @video.destroy
     redirect_to channel_path(@channel), notice: "Video deleted successfully"
   end
@@ -46,5 +45,13 @@ class VideosController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       redirect_to channels_path, alert: "Channel not found"
     end
+  end
+
+  def set_video
+    @video = @channel.videos.find(params[:id])
+  end
+
+  def authorize_video
+    authorize @video
   end
 end
