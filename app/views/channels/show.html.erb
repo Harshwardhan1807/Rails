@@ -19,10 +19,12 @@
 
       <div class="d-flex gap-2">
         <%= link_to "Back to Channels", channels_path(page: params[:page]), class: "btn btn-secondary btn-sm" %>
-        <% if user_signed_in? && current_user.subscriptions.exists?(channel: @channel) %>
-          <%= button_to "Unsubscribe", toggle_subscription_channel_path(@channel), method: :post, class: "btn btn-danger btn-sm" %>
-        <% elsif user_signed_in? %>
-          <%= button_to "Subscribe", toggle_subscription_channel_path(@channel), method: :post, class: "btn btn-primary btn-sm" %>
+        <% if user_signed_in? && current_user != @channel.owner %>
+          <% if current_user.subscriptions.exists?(channel: @channel) %>
+            <%= button_to "Unsubscribe", toggle_subscription_channel_path(@channel), method: :post, class: "btn btn-danger btn-sm" %>
+          <% else %>
+            <%= button_to "Subscribe", toggle_subscription_channel_path(@channel), method: :post, class: "btn btn-primary btn-sm" %>
+          <% end %>
         <% end %>
       </div>
 

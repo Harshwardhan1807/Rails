@@ -8,5 +8,9 @@ Rails.application.routes.draw do
     resources :videos, only: [:new, :create, :edit, :update, :destroy]
   end
   root "users#home"
-  match "*path", to: "application#not_found", via: :all
+  resources :notifications, only: [:index, :destroy] do
+    member do
+      patch :mark_as_read
+    end
+  end
 end

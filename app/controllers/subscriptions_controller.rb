@@ -7,12 +7,22 @@ class SubscriptionsController < ApplicationController
 
     if subscription
       subscription.destroy
-      notice = "Unsubscribed successfully"
+      Notification.create(
+        user: @channel.owner,
+        message: "#{current_user.name} unsubscribed from #{@channel.name}",
+        read: false,
+      )
+      alert = "Unsubscribed successfully"
     else
       current_user.subscriptions.create(channel: @channel)
+      Notification.create(
+        user: @channel.owner,
+        message: "#{current_user.name} subscribed to #{@channel.name}",
+        read: false,
+      )
       notice = "Subscribed successfully"
     end
 
-    redirect_to @channel, notice: notice
+    redirect_to @channel, notice: notice, alert: alert
   end
 end

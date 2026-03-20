@@ -23,4 +23,8 @@ class ApplicationController < ActionController::Base
     flash[:alert] = "You are not authorized to perform this action."
     redirect_back_or_to(root_path)
   end
+
+  def admin_user
+    User.find_by(role: "admin")
+  end
 end
