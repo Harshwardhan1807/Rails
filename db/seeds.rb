@@ -39,33 +39,40 @@ channels_data = [
 
 begin
   puts "Seeding database with sample users..."
-  User.create!(
-    name: "Admin",
-    email: "admin@example.com",
-    password: "admin@example.com",
-    age: 30,
-    role: "admin",
-  )
+
+  admin = User.find_or_initialize_by(email: "admin@example.com")
+  admin.name = "Admin"
+  admin.age = 30
+  admin.role = "admin"
+  admin.password = "admin@example.com"
+  admin.password_confirmation = "admin@example.com"
+  admin.save!
+
   9.times do
-    User.create!(
-      name: Faker::Name.first_name_neutral,
-      email: Faker::Internet.unique.email,
-      password: "Password@123",
-      age: rand(18..60),
-      role: ["creator", "viewer"].sample,
-    )
+    email = Faker::Internet.unique.email
+    user = User.find_or_initialize_by(email: email)
+    user.name = Faker::Name.first_name
+    user.age = rand(18..60)
+    user.role = ["creator", "viewer"].sample
+    user.password = "Password@123"
+    user.password_confirmation = "Password@123"
+    user.save!
   end
+
   puts "Created #{User.count} users"
 
   puts "Seeding database with sample channels..."
+
   user_ids = User.where(role: "creator").pluck(:id)
+
   channels_data.each do |channel|
-    Channel.create!(
+    Channel.find_or_create_by!(
       name: channel[:name],
       description: channel[:description],
       owner_id: user_ids.sample,
     )
   end
+
   puts "Created #{Channel.count} channels"
 rescue => e
   puts "Error seeding database: #{e.message}"
