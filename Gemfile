@@ -54,6 +54,8 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem "dotenv-rails"
+  gem "rspec-rails"
+  gem "pry-byebug"
 end
 
 group :development do
@@ -75,7 +77,5 @@ gem "shakapacker", "~> 9.5"
 gem "cssbundling-rails"
 gem "kaminari"
 gem "active_storage_validations"
-gem "rspec-rails"
-gem "pry-byebug"
 
 gem "pundit", "~> 2.5"
