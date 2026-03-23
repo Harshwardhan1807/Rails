@@ -1,0 +1,54 @@
+<div class="container mt-4">
+
+  <div class="d-flex align-items-center gap-2 mb-4">
+    <%= link_to "Back to Movies", request.referer || movies_path, class: "btn btn-outline-dark" %>  
+    <% if current_user.admin? %>
+      <%= button_to "Delete", movie_path(@movie),
+                    method: :delete,
+                    data: { confirm: "Are you sure?" },
+                    class: "btn btn-outline-danger" %>
+    <% end %>
+  </div>
+  <div class="row align-items-start">
+
+
+    <div class="col-md-4 mb-3">
+      <div style="height: 400px; overflow: hidden;">
+        <% if @movie.poster_url.present? %>
+          <img src="<%= @movie.poster_url %>"
+               class="w-100 h-100 rounded"
+               style="object-fit: cover;"
+               onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'d-flex align-items-center justify-content-center h-100 bg-secondary text-white rounded\'>No Image</div>';">
+        <% else %>
+          <div class="d-flex align-items-center justify-content-center h-100 bg-secondary text-white rounded">
+            No Image
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Details -->
+    <div class="col-md-8 d-flex flex-column">
+
+      <h2 class="fw-bold mb-2"><%= @movie.title %></h2>
+
+      <p class="text-muted mb-2">
+        ⭐ <%= @movie.rating %>
+      </p>
+
+      <p class="mb-3">
+        <%= @movie.description %>
+      </p>
+
+      <p class="mb-3">
+        <strong>Duration:</strong> <%= @movie.duration %> mins
+      </p>
+      
+
+      <div class="mt-auto">
+        
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_20_070613) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_23_091911) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -49,6 +49,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_070613) do
     t.bigint "owner_id", null: false
     t.datetime "updated_at", null: false
     t.index ["owner_id"], name: "index_channels_on_owner_id"
+  end
+
+  create_table "movies", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.integer "duration"
+    t.string "imdb_id"
+    t.string "poster_url"
+    t.float "rating"
+    t.string "title"
+    t.datetime "updated_at", null: false
   end
 
   create_table "notifications", force: :cascade do |t|

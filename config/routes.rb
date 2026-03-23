@@ -13,4 +13,6 @@ Rails.application.routes.draw do
       patch :mark_as_read
     end
   end
+  get "movies/top", to: "movies#top", as: "top_movies"
+  resources :movies, only: [:index, :show, :destroy]
 end

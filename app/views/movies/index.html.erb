@@ -1,0 +1,46 @@
+<div class="container mt-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Movies</h2>
+    <%= link_to "Back to Top Movies", top_movies_path, class: "btn btn-outline-dark" %>
+  </div>
+
+  <%= form_with url: movies_path, method: :get, local: true, class: "mb-4" do %>
+    <div class="input-group">
+      <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "Search movies..." %>
+      <button class="btn btn-dark">Search</button>
+    </div>
+  <% end %>
+
+  <div class="list-group">
+    <% @movies.each do |movie| %>
+      <div class="list-group-item d-flex align-items-center">
+
+        <div style="width: 80px; height: 100px; overflow: hidden;" class="me-3">
+          <% if movie.poster_url.present? %>
+            <img src="<%= movie.poster_url %>"
+                 class="w-100 h-100 rounded"
+                 style="object-fit: cover;"
+                 onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'d-flex align-items-center justify-content-center h-100 bg-secondary text-white rounded\'>No Image</div>';">
+          <% else %>
+            <div class="d-flex align-items-center justify-content-center h-100 bg-secondary text-white rounded">
+              No Image
+            </div>
+          <% end %>
+        </div>
+
+        <div class="flex-grow-1">
+          <h6 class="mb-1 fw-bold"><%= movie.title %></h6>
+          <p class="text-muted small mb-1">⭐ <%= movie.rating %></p>
+          <p class="small text-muted mb-0"><%= truncate(movie.description, length: 100) %></p>
+        </div>
+
+        <div>
+          <%= link_to "View", movie_path(movie), class: "btn btn-sm btn-dark" %>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+
+</div>

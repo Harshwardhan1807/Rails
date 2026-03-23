@@ -77,3 +77,7 @@ gem "rspec-rails"
 gem "pry-byebug"
 
 gem "pundit", "~> 2.5"
+
+gem "dotenv-rails", "~> 3.2"
+
+gem "httparty", "~> 0.24.2"
