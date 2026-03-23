@@ -1,21 +1,19 @@
 default: &default
   adapter: postgresql
   max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV.fetch("USERNAME", "harshwardhan") %>
-  password: <%= ENV.fetch("PASSWORD", "Hys1807") %>
+  username: <%= ENV.fetch("USERNAME", "username") %>
+  password: <%= ENV.fetch("PASSWORD", "password") %>
   timeout: 5000
   host: localhost
 
 development:
   <<: *default
-  database: streaming_development
+  database: yourapp_development
 
 test:
   <<: *default
-  database: streaming_test
+  database: yourapp_test
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  <<: *default
   url: <%= ENV["DATABASE_URL"] %>
