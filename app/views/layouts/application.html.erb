@@ -153,6 +153,13 @@
         © <%= Time.current.year %> Video Network Platform. All rights reserved.
       </div>
     </footer>
+    <script>
+      setTimeout(() => {
+        document.querySelectorAll('.flash-message').forEach(el => {
+          el.remove()
+        });
+      }, 3000);
+    </script>
     <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" %>
   </body>
 </html>
