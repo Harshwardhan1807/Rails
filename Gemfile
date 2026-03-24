@@ -73,8 +73,6 @@ gem "pg", "~> 1.6"
 gem "devise"
 gem "faker"
 
-gem "shakapacker", "~> 9.5"
-gem "cssbundling-rails"
 gem "kaminari"
 gem "active_storage_validations"
 
