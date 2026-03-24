@@ -90,4 +90,4 @@ RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile
 
 # Run migrations and start server
 EXPOSE 3000
-CMD bundle exec rails db:migrate && bundle exec puma -C config/puma.rb
+CMD bundle exec rails db:migrate && bundle exec rails db:seed && bundle exec puma -C config/puma.rb
