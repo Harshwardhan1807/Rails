@@ -54,7 +54,7 @@
       <%= button_to "Delete", @user, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger me-2", form: { style: "display: inline-block;" } %>
     <% end %>
 
-    <%= link_to "Back to Channels", channels_path, class: "btn btn-secondary" %>
+    <%= link_to "Back to Users", users_path(page: params[:page]), class: "btn btn-primary" %>
   </div>
 
 </div>

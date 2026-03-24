@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   def index
     authorize User
-    @users = User.all.order(:id)
+    @users = User.all.order(:id).page(params[:page]).per(7)
   end
 
   def show

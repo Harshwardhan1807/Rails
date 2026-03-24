@@ -6,12 +6,16 @@
     <% @users.each do |user| %>
       <li class="list-group-item">
         <strong>
-          <%= link_to user.name, user_path(user), class: "text-decoration-none" %>
+          <%= link_to user.name, user_path(user, page: params[:page]), class: "text-decoration-none" %>
         </strong>
         <span class="text-muted">(<%= user.email %>)</span>
       </li>
     <% end %>
   </ul>
+
+  <div class="mb-3">
+    <%= paginate @users %>
+  </div>
 
   <div>
     <%= link_to "Channels", channels_path, class: "btn btn-primary me-2" %>

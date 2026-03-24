@@ -8,5 +8,14 @@ Rails.application.routes.draw do
     resources :videos, only: [:new, :create, :edit, :update, :destroy]
   end
   root "users#home"
+  resources :notifications, only: [:index, :destroy] do
+    member do
+      patch :mark_as_read
+    end
+    collection do
+      patch :mark_all_as_read
+      patch :mark_all_as_unread
+    end
+  end
   match "*path", to: "application#not_found", via: :all, constraints: ->(req) { !req.path.start_with?("/rails/active_storage") }
 end
