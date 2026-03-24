@@ -38,42 +38,44 @@ channels_data = [
 ]
 
 begin
-  puts "Seeding database with sample users..."
+  if User.count < 10 || Channel.count < 20
+    puts "Seeding database with sample users..."
 
-  admin = User.find_or_initialize_by(email: "admin@example.com")
-  admin.name = "Admin"
-  admin.age = 30
-  admin.role = "admin"
-  admin.password = "admin@example.com"
-  admin.password_confirmation = "admin@example.com"
-  admin.save!
+    admin = User.find_or_initialize_by(email: "admin@example.com")
+    admin.name = "Admin"
+    admin.age = 30
+    admin.role = "admin"
+    admin.password = "admin@example.com"
+    admin.password_confirmation = "admin@example.com"
+    admin.save!
 
-  9.times do
-    email = Faker::Internet.unique.email
-    user = User.find_or_initialize_by(email: email)
-    user.name = Faker::Name.first_name
-    user.age = rand(18..60)
-    user.role = ["creator", "viewer"].sample
-    user.password = "Password@123"
-    user.password_confirmation = "Password@123"
-    user.save!
+    9.times do
+      email = Faker::Internet.unique.email
+      user = User.find_or_initialize_by(email: email)
+      user.name = Faker::Name.first_name
+      user.age = rand(18..60)
+      user.role = ["creator", "viewer"].sample
+      user.password = "Password@123"
+      user.password_confirmation = "Password@123"
+      user.save!
+    end
+
+    puts "Created #{User.count} users"
+
+    puts "Seeding database with sample channels..."
+
+    user_ids = User.where(role: "creator").pluck(:id)
+
+    channels_data.each do |channel|
+      Channel.find_or_create_by!(
+        name: channel[:name],
+        description: channel[:description],
+        owner_id: user_ids.sample,
+      )
+    end
+
+    puts "Created #{Channel.count} channels"
   end
-
-  puts "Created #{User.count} users"
-
-  puts "Seeding database with sample channels..."
-
-  user_ids = User.where(role: "creator").pluck(:id)
-
-  channels_data.each do |channel|
-    Channel.find_or_create_by!(
-      name: channel[:name],
-      description: channel[:description],
-      owner_id: user_ids.sample,
-    )
-  end
-
-  puts "Created #{Channel.count} channels"
 rescue => e
   puts "Error seeding database: #{e.message}"
 end
