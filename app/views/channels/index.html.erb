@@ -1,30 +1,32 @@
-<div class="container mt-4">
+<div class="container py-4" style="max-width: 700px;">
 
-  <h1 class="mb-4 text-center">Channels</h1>
+  <h2 style="font-family:'DM Sans',sans-serif; font-weight:500; color:#e0ddd8; margin-bottom:1.5rem;">
+    Channels
+  </h2>
 
-  <ul class="list-group mb-3">
-    <% @channels.each do |channel| %>
-      <li class="list-group-item">
-        <strong>
-          <%= link_to channel.name, channel_path(channel, page: params[:page]), class: "text-decoration-none" %>
-        </strong>
-        <div class="text-muted small">
-          <%= channel.description %>
-        </div>
-      </li>
+  <div style="border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; overflow: hidden; margin-bottom: 1.25rem;">
+    <% @channels.each_with_index do |channel, i| %>
+      <div style="padding: 0.9rem 1.25rem; <%= i != 0 ? "border-top: 1px solid rgba(255,255,255,0.06);" : "" %> background: #111116;">
+        <%= link_to channel.name, channel_path(channel, page: params[:page]),
+                    style: "color:#e05c2a; text-decoration:none; font-size:0.95rem; font-weight:500;" %>
+        <% if channel.description.present? %>
+          <div style="color:#7a7880; font-size:0.8rem; margin-top:3px;">
+            <%= channel.description %>
+          </div>
+        <% end %>
+      </div>
     <% end %>
-  </ul>
+  </div>
 
-  <div class="mb-3">
+  <div class="mb-4">
     <%= paginate @channels %>
   </div>
 
-  <div>
+  <div class="d-flex gap-2">
     <% if user_signed_in? && (current_user.admin? || current_user.role == "creator") %>
-      <%= link_to "New Channel", new_channel_path, class: "btn btn-primary me-2" %>
+      <%= link_to "New Channel", new_channel_path, class: "vn-btn-primary" %>
     <% end %>
-
-    <%= link_to "Back to Users", users_path, class: "btn btn-secondary" %>
+    <%= link_to "Back to Users", users_path, class: "vn-btn-outline" %>
   </div>
 
 </div>

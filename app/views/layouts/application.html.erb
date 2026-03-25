@@ -1,160 +1,419 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= content_for(:title) || "Video Network" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Video Network">
-    <meta name="mobile-web-app-capable" content="yes">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>Video Network</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= yield :head %>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+  <%= stylesheet_link_tag "application", media: "all" %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+  <style>
+    body {
+      background: #0f0f11;
+      color: #e0ddd8;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css", rel: "stylesheet" %>
-    <style>
-      .main-container {
-        max-width: 900px;
-        margin: 40px auto;
-      }
-      .pagination {
-        display: flex;
-        justify-content: center;
-        gap: 6px;
-        margin: 20px 0;
-        align-items: center;
-      }
+    a { color: #e05c2a; }
+    a:hover { color: #c94e22; }
 
-      .pagination a,
-      .pagination .current {
-        display: inline-block;
-        padding: 6px 10px;
-        border: 1px solid #ddd;
-        text-decoration: none;
-        color: #2980b9;
-        line-height: 1.2;
-      }
+    /* ── NAVBAR ── */
+    .vn-navbar {
+      background: #111116 !important;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 0.75rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-      .pagination .current {
-        background-color: #2980b9;
-        color: white;
-        border-color: #2980b9;
-      }
-      .flash-container {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1050;
-      }
+    .vn-brand {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #e0ddd8 !important;
+      text-decoration: none;
+    }
 
-      .flash-message {
-        min-width: 250px;
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-    </style>
-  </head>
+    .vn-brand:hover { color: #fff !important; }
 
-  <body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-      <div class="container-fluid">
+    .vn-nav-link {
+      color: #ffffff !important;
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
 
-        <%= link_to "Video Network", root_path, class: "navbar-brand fw-bold" %>
-        <li class= "ms-3">
-            <%= link_to "Channels", channels_path, class: "text-decoration-none text-white" %>
-        </li>
+    .vn-nav-link:hover { color: #e0ddd8 !important; }
+
+    .vn-user-info {
+      font-size: 0.8rem;
+      color: #7a7880;
+    }
+
+    .vn-user-info strong { color: #5bc4d4; font-weight: 500; }
+
+    .vn-btn-primary {
+      background: #e05c2a;
+      color: #fff !important;
+      border: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.38rem 1rem;
+      border-radius: 6px;
+      text-decoration: none !important;
+      transition: background 0.2s;
+    }
+
+    .vn-btn-primary:hover { background: #c94e22; }
+
+    .vn-btn-outline {
+      background: transparent;
+      color: #7a7880 !important;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.38rem 1rem;
+      border-radius: 6px;
+      text-decoration: none !important;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .vn-btn-outline:hover {
+      color: #e0ddd8 !important;
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .vn-btn-success {
+      background: #2a9d6e;
+      color: #fff !important;
+      border: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.38rem 1rem;
+      border-radius: 6px;
+      text-decoration: none !important;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .vn-btn-success:hover { background: #238a5e; }
+
+    .vn-btn-danger {
+      background: #db1b06;
+      color: #fff !important;
+      border: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.38rem 1rem;
+      border-radius: 6px;
+      text-decoration: none !important;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .vn-btn-danger:hover { background: #a93226; }
+
+    .vn-notif {
+      background: #18181f;
+      color: #e0ddd8 !important;
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.8rem;
+      padding: 0.38rem 1rem;
+      border-radius: 6px;
+      text-decoration: none !important;
+      transition: border-color 0.2s;
+    }
+
+    .vn-notif:hover { border-color: rgba(255,255,255,0.2); color: #fff !important; }
+
+    .vn-notif-count {
+      background: #e05c2a;
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 600;
+      padding: 1px 5px;
+      border-radius: 10px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    /* ── FLASH ── */
+    .vn-flash-container {
+      position: fixed;
+      top: 68px;
+      right: 1rem;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 340px;
+      width: 100%;
+    }
+
+    .vn-flash {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #18181f;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      animation: slideIn 0.25s ease both;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(16px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .vn-flash-success { border-left: 3px solid #3ecf8e; }
+    .vn-flash-danger  { border-left: 3px solid #ef5350; }
+
+    .vn-flash-close {
+      background: none;
+      border: none;
+      color: #7a7880;
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .vn-flash-close:hover { color: #e0ddd8; }
+
+    /* ── MAIN ── */
+    .vn-main { flex: 1; padding: 2rem 0; }
+
+    /* ── CARDS ── */
+    .vn-card {
+      background: #111116;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+    }
+
+    /* ── TABLES ── */
+    .vn-table {
+      color: #e0ddd8;
+      border-color: rgba(255,255,255,0.07);
+    }
+
+    .vn-table th {
+      color: #7a7880;
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 0.75rem 1rem;
+    }
+
+    .vn-table td {
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      vertical-align: middle;
+    }
+
+    .vn-table tr:last-child td { border-bottom: none; }
+    .vn-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* ── FORMS ── */
+    .vn-form-control,
+    .form-control,
+    .form-select {
+      background: #18181f !important;
+      border: 1px solid rgba(255,255,255,0.1) !important;
+      color: #e0ddd8 !important;
+      border-radius: 7px;
+      font-size: 0.9rem;
+    }
+
+    .vn-form-control:focus,
+    .form-control:focus,
+    .form-select:focus {
+      background: #18181f !important;
+      border-color: #e05c2a !important;
+      color: #e0ddd8 !important;
+      box-shadow: 0 0 0 3px rgba(224,92,42,0.15) !important;
+    }
+
+    .form-control::placeholder { color: #4a4850 !important; }
+
+    label, .form-label {
+      font-size: 0.85rem;
+      color: #7a7880;
+      margin-bottom: 0.35rem;
+    }
+
+    /* ── BADGES ── */
+    .vn-badge {
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    /* ── PAGINATION ── */
+    .pagination {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pagination a,
+    .pagination .current {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      height: 34px;
+      padding: 0 8px;
+      white-space: nowrap;
+      background: #111116;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #7a7880;
+      font-size: 0.82rem;
+      border-radius: 6px;
+      text-decoration: none;
+      line-height: 1;
+      transition: all 0.2s;
+    }
+
+    .pagination a:hover {
+      background: #18181f;
+      color: #e0ddd8;
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .pagination .current {
+      background: #e05c2a;
+      border-color: #e05c2a;
+      color: #fff;
+    }
+
+    .pagination .disabled a,
+    .pagination .disabled span {
+      background: transparent;
+      border: none;
+      color: #3a3840;
+      pointer-events: none;
+    }
+
+    /* ── FOOTER ── */
+    .vn-footer {
+      background: #111116;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 1.25rem 1rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #7a7880;
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 1000px #18181f inset !important;
+      -webkit-text-fill-color: #e0ddd8 !important;
+      caret-color: #e0ddd8;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+  </style>
+</head>
+
+<body>
+
+  <%# NAVBAR %>
+  <nav class="vn-navbar navbar navbar-expand-lg">
+    <div class="container-fluid">
+
+      <%= link_to "Video Network", root_path, class: "vn-brand me-4" %>
+
+      <div class="d-flex align-items-center gap-3 me-auto">
+        <%= link_to "Channels", channels_path, class: "vn-nav-link" %>
         <% if current_user&.admin? %>
-          <li class="nav-item ms-3">
-            <%= link_to "Users", users_path, class: "text-decoration-none text-white" %>
-          </li>
+          <%= link_to "Users", users_path, class: "vn-nav-link" %>
         <% end %>
+      </div>
 
-        <div class="collapse navbar-collapse justify-content-end">
+      <div class="d-flex align-items-center gap-3">
+        <% if user_signed_in? %>
 
-          <% if user_signed_in? %>
-            <ul class="navbar-nav align-items-center">
+          <span class="vn-user-info">
+            Logged in as <strong><%= current_user.name %></strong>
+            (<span style="color:#4a4850"><%= current_user.role.capitalize %></span>)
+          </span>
 
-              <li class="nav-item me-3 text-white">
-                <span class="small">
-                  Logged in as 
-                  <strong class="text-info"><%= current_user.name %></strong>
-                  <span class="text-secondary">
-                    (<%= current_user.role.capitalize %>)
-                  </span>
-                </span>
-              </li>
-
-              <li class="nav-item">
-                <%= button_to "Logout",destroy_user_session_path,method: :delete,class: "btn btn-outline-light btn-sm", form: { class: "d-inline" } %>
-              </li>
-
-              <li class="nav-item ms-3">
-                <%= link_to "My Profile", user_path(current_user), class: "btn btn-primary btn-sm" %>
-              </li>
-
-              <% unread_count = current_user.notifications.where(read: false).count %>
-              <li class="nav-item ms-3">
-                <%= link_to "Notifications (#{unread_count})", notifications_path, class: "btn btn-primary btn-sm" %>
-              </li> 
-
-            </ul>
-          <% else %>
-            <ul class="navbar-nav ">
-              <li class="nav-item me-3">
-                <%= link_to "Login", new_user_session_path, class: "btn btn-primary" %>
-              </li>
-            </ul>
+          <% unread_count = current_user.notifications.where(read: false).count %>
+          <%= link_to notifications_path, class: "vn-notif" do %>
+            Notifications
+            <% if unread_count > 0 %>
+              <span class="vn-notif-count"><%= unread_count %></span>
+            <% end %>
           <% end %>
 
-        </div>
+          <%= link_to "My Profile", user_path(current_user), class: "vn-btn-primary" %>
+
+          <%= button_to "Logout", destroy_user_session_path,
+                        method: :delete,
+                        class: "vn-btn-outline",
+                        form: { class: "d-inline" } %>
+
+        <% else %>
+          <%= link_to "Login", new_user_session_path, class: "vn-btn-primary" %>
+        <% end %>
       </div>
-    </nav>
 
-    <div class="flash-container">
-      <% if notice %>
-        <div class="flash-message alert alert-success shadow">
-          <%= notice %>
-          <button type="button" class="btn-close ms-3"
-            onclick="this.parentElement.style.display='none'"></button>
-        </div>
-      <% end %>
-
-      <% if alert %>
-        <div class="flash-message alert alert-danger shadow">
-          <%= alert %>
-          <button type="button" class="btn-close ms-3"
-            onclick="this.parentElement.style.display='none'"></button>
-        </div>
-      <% end %>
     </div>
+  </nav>
 
-    <div class="main-container">
-      <%= yield %>
-    </div>
 
-    <footer class="bg-dark text-white text-center py-4 mt-auto">
-      <div class="container">
-        © <%= Time.current.year %> Video Network Platform. All rights reserved.
+  <%# MAIN %>
+  <main class="vn-main">
+    <%= yield %>
+  </main>
+
+  <div class="vn-flash-container">
+    <% if notice %>
+      <div class="vn-flash vn-flash-success">
+        <span><%= notice %></span>
+        <button class="vn-flash-close" onclick="this.parentElement.remove()">✕</button>
       </div>
-    </footer>
-    <script>
-      setTimeout(() => {
-        document.querySelectorAll('.flash-message').forEach(el => {
-          el.remove()
-        });
-      }, 3000);
-    </script>
-    <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" %>
-  </body>
+    <% end %>
+    <% if alert %>
+      <div class="vn-flash vn-flash-danger">
+        <span><%= alert %></span>
+        <button class="vn-flash-close" onclick="this.parentElement.remove()">✕</button>
+      </div>
+    <% end %>
+  </div>
+
+  <%# FOOTER %>
+  <footer class="vn-footer">
+    © <%= Time.current.year %> Video Network Platform. All rights reserved.
+  </footer>
+
+  <script>
+    setTimeout(() => {
+      document.querySelectorAll('.vn-flash').forEach(el => el.remove());
+    }, 3000);
+  </script>
+  <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" %>
+
+</body>
 </html>

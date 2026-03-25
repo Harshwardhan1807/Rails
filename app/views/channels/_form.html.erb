@@ -1,11 +1,9 @@
 <%= form_with model: channel do |form| %>
 
   <% if channel.errors.any? %>
-    <div class="alert alert-danger">
-      <h5 class="mb-2">
-        <%= pluralize(channel.errors.count, "error") %> prevented this channel from being saved:
-      </h5>
-      <ul class="mb-0">
+    <div style="background:rgba(239,83,80,0.08); border:1px solid rgba(239,83,80,0.2); border-radius:8px; padding:1rem; margin-bottom:1.25rem; font-size:0.875rem; color:#ef5350;">
+      <div style="margin-bottom:0.5rem;"><%= pluralize(channel.errors.count, "error") %> prevented this channel from being saved:</div>
+      <ul style="margin:0; padding-left:1.25rem;">
         <% channel.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
@@ -24,7 +22,7 @@
   </div>
 
   <div>
-    <%= form.submit class: "btn btn-primary me-2" %>
+    <%= form.submit class: "vn-btn-primary" %>
   </div>
 
 <% end %>
