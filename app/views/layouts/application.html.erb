@@ -71,6 +71,14 @@
       <div class="container-fluid">
 
         <%= link_to "Video Network", root_path, class: "navbar-brand fw-bold" %>
+        <li class= "ms-3">
+            <%= link_to "Channels", channels_path, class: "text-decoration-none text-white" %>
+        </li>
+        <% if current_user&.admin? %>
+          <li class="nav-item ms-3">
+            <%= link_to "Users", users_path, class: "text-decoration-none text-white" %>
+          </li>
+        <% end %>
 
         <div class="collapse navbar-collapse justify-content-end">
 
@@ -95,24 +103,16 @@
                 <%= link_to "My Profile", user_path(current_user), class: "btn btn-primary btn-sm" %>
               </li>
 
+              <% unread_count = current_user.notifications.where(read: false).count %>
               <li class="nav-item ms-3">
-                <%= link_to "All Channels", channels_path, class: "btn btn-primary btn-sm" %>
-              </li>
-
-              <% if current_user.admin? %>
-                <li class="nav-item ms-3">
-                  <%= link_to "All Users", users_path, class: "btn btn-primary btn-sm" %>\
-                </li>
-              <% end %>
+                <%= link_to "Notifications (#{unread_count})", notifications_path, class: "btn btn-primary btn-sm" %>
+              </li> 
 
             </ul>
           <% else %>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <%= link_to "Login", new_user_session_path, class: "btn btn-primary btn-sm" %>
-              </li>
-              <li class="nav-item ms-3">
-                <%= link_to "All Channels", channels_path, class: "btn btn-primary btn-sm" %>
+            <ul class="navbar-nav ">
+              <li class="nav-item me-3">
+                <%= link_to "Login", new_user_session_path, class: "btn btn-primary" %>
               </li>
             </ul>
           <% end %>
@@ -148,6 +148,13 @@
         © <%= Time.current.year %> Video Network Platform. All rights reserved.
       </div>
     </footer>
+    <script>
+      setTimeout(() => {
+        document.querySelectorAll('.flash-message').forEach(el => {
+          el.remove()
+        });
+      }, 3000);
+    </script>
     <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" %>
   </body>
 </html>
