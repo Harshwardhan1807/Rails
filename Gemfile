@@ -77,3 +77,5 @@ gem "kaminari"
 gem "active_storage_validations"
 
 gem "pundit", "~> 2.5"
+gem "cloudinary", group: :production
+gem "activestorage-cloudinary-service", group: :production
