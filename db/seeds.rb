@@ -76,6 +76,29 @@ begin
 
     puts "Created #{Channel.count} channels"
   end
+
+  # if Video.count < 10
+  #   puts "Seeding database with sample videos..."
+  #   video_path = "/home/harshwardhan/Downloads/sample-5s.mp4"
+
+  #   Channel.all.each do |channel|
+  #     video = Video.new(
+  #       channel: channel,
+  #       title: "Sample Video for #{channel.name}",
+  #       description: "This is a sample video for #{channel.name}",
+  #       duration: 5,
+  #     )
+
+  #     video.video_file.attach(
+  #       io: File.open(video_path),
+  #       filename: "sample.mp4",
+  #       content_type: "video/mp4",
+  #     )
+  #     video.save!
+
+  #     puts "Attached video to channel: #{channel.name}"
+  #   end
+  # end
 rescue => e
   puts "Error seeding database: #{e.message}"
 end

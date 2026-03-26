@@ -59,6 +59,55 @@
             <source src="<%= url_for(video.video_file) %>">
           </video>
 
+          <div style="margin-top:1rem;">
+
+            <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:#7a7880; margin-bottom:0.75rem;">
+              Comments (<%= video.comments.count %>)
+            </div>
+
+            <% if video.comments.any? %>
+              <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:1rem;">
+                <% video.comments.each do |comment| %>
+                  <div style="background:#18181f; border:1px solid rgba(255,255,255,0.06); border-radius:8px; padding:0.75rem 1rem;">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div>
+                        <span style="font-size:0.8rem; font-weight:500; color:#e05c2a;">
+                          <%= comment.user.name %>
+                        </span>
+                        <span style="font-size:0.72rem; color:#4a4850; margin-left:8px;">
+                          <%= comment.created_at.strftime("%b %d, %Y · %I:%M %p") %>
+                        </span>
+                        <p style="font-size:0.85rem; color:#e0ddd8; margin:0.35rem 0 0;">
+                          <%= comment.body %>
+                        </p>
+                      </div>
+                      <% if user_signed_in? && (current_user == comment.user || current_user.admin?) %>
+                        <%= button_to "✕", channel_video_comment_path(@channel, video, comment),
+                                      method: :delete,
+                                      class: "vn-btn-danger",
+                                      form: { class: "d-inline" } %>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <p style="font-size:0.82rem; color:#4a4850; margin-bottom:0.75rem;">No comments yet.</p>
+            <% end %>
+
+            <%= form_with model: [@channel, video, Comment.new], local: true do |f| %>
+              <div style="display:flex; gap:8px; align-items:flex-start;">
+                <%= f.text_area :body,
+                                placeholder: "Write a comment...",
+                                class: "form-control",
+                                rows: 1,
+                                style: "resize:none; font-size:0.875rem;" %>
+                <%= f.submit "Post", class: "vn-btn-primary" %>
+              </div>
+            <% end %>
+            
+          </div>
+
         </div>
       <% end %>
     </div>

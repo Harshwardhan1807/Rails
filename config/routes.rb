@@ -5,7 +5,9 @@ Rails.application.routes.draw do
     member do
       post :toggle_subscription, to: "subscriptions#toggle"
     end
-    resources :videos, only: [:new, :create, :edit, :update, :destroy]
+    resources :videos, only: [:new, :create, :edit, :update, :destroy] do
+      resources :comments, only: [:create, :destroy]
+    end
   end
   root "users#home"
   resources :notifications, only: [:index, :destroy] do

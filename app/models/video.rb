@@ -1,5 +1,6 @@
 class Video < ApplicationRecord
   has_one_attached :video_file
+  has_many :comments, dependent: :destroy
 
   belongs_to :channel
   validates :title, :description, presence: true, uniqueness: true
