@@ -1,43 +1,55 @@
-<div class="container mt-4">
+<div class="container py-4" style="max-width: 700px;">
 
-  <h3 class="mb-3">Notifications</h3>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 style="font-weight:500; margin:0;">Notifications</h2>
+    <% if @notifications.any? %>
+      <div class="d-flex gap-2">
+        <%= button_to "Mark all as read", mark_all_as_read_notifications_path,
+                      method: :patch, class: "vn-btn-primary", form: { class: "d-inline" } %>
+        <%= button_to "Mark all as unread", mark_all_as_unread_notifications_path,
+                      method: :patch, class: "vn-btn-outline", form: { class: "d-inline" } %>
+      </div>
+    <% end %>
+  </div>
 
   <% if @notifications.empty? %>
-    <p class="text-muted">No notifications available.</p>
-  <% else %>
-    <ul class="list-group">
-      <% @notifications.each do |n| %>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-                <p class="mb-1 <%= "fw-bold" unless n.read %>">
-                    <%= n.message %>
-                </p>
-                <% unless n.read %>
-                    <span class="badge bg-warning text-dark">Unread</span>
-                <% else %>
-                    <span class="badge bg-success">Read</span>
-                <% end %>
+    <p style="color:#7a7880; font-size:0.875rem;">No notifications available.</p>
 
-                <% unless n.read %>
-                    <%= button_to "Mark as read", mark_as_read_notification_path(n),
-                                  method: :patch,
-                                  class: "btn btn-sm btn-primary ms-3 badge",
-                                  form: { style: "display: inline;" } %>
-                <% end %>
-                <%= button_to "Delete", notification_path(n), method: :delete, class: "btn btn-sm btn-danger ms-3 badge", form: { style: "display: inline;" } %>
-                <div>
-                    <small class="text-muted">
-                        <%= n.created_at.strftime("%B %d, %Y %I:%M %p") %>
-                    </small>
-                </div>
-            </div>
-        </li>
-        
+  <% else %>
+    <div style="border:1px solid rgba(255,255,255,0.07); border-radius:10px; overflow:hidden;">
+      <% @notifications.each_with_index do |n, i| %>
+        <div style="padding:1rem 1.25rem;
+                    background:#111116;
+                    border-left:3px solid <%= n.read ? "transparent" : "#e05c2a" %>;
+                    <%= i != 0 ? "border-top:1px solid rgba(255,255,255,0.06);" : "" %>">
+
+          <p style="margin-bottom:0.4rem; font-size:0.9rem;
+                    color:<%= n.read ? "#7a7880" : "#e0ddd8" %>;
+                    font-weight:<%= n.read ? "300" : "500" %>;">
+            <%= n.message %>
+          </p>
+
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <small style="color:#4a4850; font-size:0.75rem;">
+              <%= n.created_at.strftime("%B %d, %Y · %I:%M %p") %>
+            </small>
+
+            <% if n.read %>
+              <span style="background:rgba(62,207,142,0.1); color:#3ecf8e; font-size:0.8rem; padding:4px 10px; height:30px; display:inline-flex; align-items:center; border-radius:4px;">Read</span>
+            <% else %>
+              <span style="background:rgba(224,92,42,0.12); color:#e07a50; font-size:0.8rem; padding:4px 10px; height:30px; display:inline-flex; align-items:center; border-radius:4px;">Unread</span>
+              <%= button_to "Mark as read", mark_as_read_notification_path(n),
+                            method: :patch, class: "vn-btn-primary",
+                            form: { class: "d-inline" } %>
+            <% end %>
+
+            <%= button_to "✕", notification_path(n),
+                          method: :delete, class: "vn-btn-danger",
+                          form: { class: "d-inline" } %>
+          </div>
+
+        </div>
       <% end %>
-    </ul>
-    <div class="mt-3 d-flex gap-2">
-      <%= button_to "Mark all as read", mark_all_as_read_notifications_path, method: :patch, class: "btn btn-sm btn-primary" %>
-      <%= button_to "Mark all as unread", mark_all_as_unread_notifications_path, method: :patch, class: "btn btn-sm btn-warning" %>
     </div>
   <% end %>
 
