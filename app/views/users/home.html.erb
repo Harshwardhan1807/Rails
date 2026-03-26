@@ -1,13 +1,29 @@
-<div class="container d-flex align-items-center justify-content-center" style="min-height: 70vh;">
-  <div class="text-center p-5 shadow-lg rounded-4 bg-light">
+<div class="container py-5">
+  <div style="min-height: calc(100vh - 300px); display: flex; align-items: center; justify-content: center;">
+  <div class="text-center">
 
-    <h1 class="display-4 fw-bold mb-4 text-primary">
-      Welcome to the Video Network
-    </h1>
-
-    <p class="lead mb-4 text-muted">
-      Explore channels and videos. Create your own channel and share your content with the world!
+    <p style="font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:#e05c2a; margin-bottom:1rem;">
+      Video Networking Platform
     </p>
 
+    <h1 style="font-family:'DM Sans',sans-serif; font-size:2rem; font-weight:500; color:#e0ddd8; margin-bottom:1rem;">
+      Welcome to Video Network
+    </h1>
+
+    <p style="color:#7a7880; font-size:0.95rem; line-height:1.75; max-width:420px; margin:0 auto;">
+      Explore channels and videos. Create your own channel and share your content with the world.
+    </p>
+    <hr style="border-color:rgba(255,255,255,0.07); margin:2rem auto; max-width:200px;">
+
+    <% user_count = User.count %>
+    <% video_count = Video.count %>
+    <div class="d-flex justify-content-center gap-3" style="font-size:0.82rem; color:#7a7880;">
+        <span><%= user_count %> Users</span>
+        <span style="color:#2a2a30;">|</span>
+        <span><%= video_count %> Videos</span>
+        <span style="color:#2a2a30;">|</span>
+        <span>4K Streaming</span>
+      </div>
   </div>
+</div>
 </div>

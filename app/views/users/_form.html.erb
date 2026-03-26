@@ -1,25 +1,43 @@
 <%= form_with model: @user, local: true do |f| %>
-    <p>
-        <%= f.label :name %>
-        <%= f.text_field :name %>
-    </p>
-    <p>
-        <%= f.label :email %>
-        <%= f.text_field :email %>
-    </p>
-    <p>
-        <%= f.label :password %>
-        <%= f.password_field :password %>
-    </p>
-    <p>
-        <%= f.label :age %>
-        <%= f.number_field :age %>
-    </p>
-    <p>
-        <%= f.label :role %>
-        <%= f.select :role, options_for_select([["Creator", "creator"], ["Viewer", "viewer"]]) %>
-    </p>    
-    <p>
-        <%= f.submit %>
-    </p>
+
+  <% if @user.errors.any? %>
+    <div style="background:rgba(239,83,80,0.08); border:1px solid rgba(239,83,80,0.2); border-radius:8px; padding:1rem; margin-bottom:1.25rem; font-size:0.875rem; color:#ef5350;">
+      <div style="margin-bottom:0.5rem;"><%= pluralize(@user.errors.count, "error") %>:</div>
+      <ul style="margin:0; padding-left:1.25rem;">
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :name, class: "form-label" %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :email, class: "form-label" %>
+    <%= f.text_field :email, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :password, class: "form-label" %>
+    <%= f.password_field :password, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :age, class: "form-label" %>
+    <%= f.number_field :age, class: "form-control" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :role, class: "form-label" %>
+    <%= f.select :role, options_for_select([["Creator", "creator"], ["Viewer", "viewer"]]), {}, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= f.submit class: "vn-btn-primary" %>
+  </div>
+
 <% end %>
