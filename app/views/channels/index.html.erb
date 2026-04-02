@@ -15,16 +15,16 @@
                    onmouseover="this.style.transform='scale(1.05)'"
                    onmouseout="this.style.transform='scale(1)'">
             <% else %>
-              <div style="width:64px; height:64px; border-radius:10px; background:#18181f; border:1px solid rgba(255,255,255,0.07); display:flex; align-items:center; justify-content:center; color:#e05c2a; font-size:1.5rem; font-weight:600;">
+              <div style="width:90px; height:90px; border-radius:10px; background:#18181f; border:1px solid rgba(255,255,255,0.07); display:flex; align-items:center; justify-content:center; color:#e05c2a; font-size:1.5rem; font-weight:600;">
                 <%= channel.name.first.upcase %>
               </div>
             <% end %>
 
             <div>
               <%= link_to channel.name, channel_path(channel, page: params[:page]),
-                          style: "color:#e05c2a; text-decoration:none; font-size:0.95rem; font-weight:500;" %>
+                          style: "color:#e05c2a; text-decoration:none; font-size:1rem; font-weight:500;" %>
               <% if channel.description.present? %>
-                <div style="color:#7a7880; font-size:0.8rem; margin-top:3px;">
+                <div style="color:#7a7880; font-size:0.9rem; margin-top:3px;">
                   <%= channel.description %>
                 </div>
               <% end %>
