@@ -1,10 +1,10 @@
 class ChannelsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
-  before_action :set_channel, only: [:show, :edit, :update]
+  before_action :set_channel, only: [:show, :edit, :update, :destroy]
   before_action :authorize_channel, only: [:edit, :update]
 
   def index
-    @channels = Channel.order(:id).page(params[:page]).per(7)
+    @channels = Channel.order(:id).page(params[:page]).per(5)
   end
 
   def show
@@ -34,10 +34,15 @@ class ChannelsController < ApplicationController
     end
   end
 
+  def destroy
+    @channel.destroy
+    redirect_to channels_path, notice: "Channel deleted successfully"
+  end
+
   private
 
   def channel_params
-    params.require(:channel).permit(:name, :description)
+    params.require(:channel).permit(:name, :description, :photo)
   end
 
   def set_channel

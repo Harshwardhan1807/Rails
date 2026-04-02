@@ -21,6 +21,16 @@
     <%= form.text_area :description, class: "form-control", rows: 3 %>
   </div>
 
+  <div class="mb-4">
+    <%= form.label :photo, class: "form-label" %>
+    <%= form.file_field :photo, class: "form-control" %>
+    <% if channel.photo.attached? %>
+      <div style="margin-top:0.5rem;">
+        <img src="<%= url_for(channel.photo) %>" style="width:120px; height:120px; border-radius:10px; object-fit:cover; border:1px solid rgba(255,255,255,0.08);">
+      </div>
+    <% end %>
+  </div>
+
   <div>
     <%= form.submit class: "vn-btn-primary" %>
   </div>

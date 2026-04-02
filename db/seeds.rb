@@ -77,6 +77,24 @@ begin
     puts "Created #{Channel.count} channels"
   end
 
+  puts "Attaching images to channels..."
+
+  Channel.find_each do |channel|
+    next if channel.photo.attached?
+
+    image_url = "https://picsum.photos/seed/#{channel.id}/300/300"
+
+    file = URI.open(image_url)
+
+    channel.photo.attach(
+      io: file,
+      filename: "channel_#{channel.id}.jpg",
+      content_type: "image/jpg",
+    )
+  end
+
+  puts "Images attached!"
+
   # if Video.count < 10
   #   puts "Seeding database with sample videos..."
   #   video_path = "/home/harshwardhan/Downloads/sample-5s.mp4"

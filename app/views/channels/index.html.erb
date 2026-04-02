@@ -1,32 +1,73 @@
-<div class="container py-4" style="max-width: 700px;">
+<div class="container py-4">
 
-  <h2 style="font-family:'DM Sans',sans-serif; font-weight:500; color:#e0ddd8; margin-bottom:1.5rem;">
-    Channels
-  </h2>
+  <h2 style="font-weight:500; margin-bottom:1.5rem;">Channels</h2>
 
-  <div style="border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; overflow: hidden; margin-bottom: 1.25rem;">
+  <div style="border:1px solid rgba(255,255,255,0.07); border-radius:10px; overflow:hidden; margin-bottom:1.25rem;">
     <% @channels.each_with_index do |channel, i| %>
-      <div style="padding: 0.9rem 1.25rem; <%= i != 0 ? "border-top: 1px solid rgba(255,255,255,0.06);" : "" %> background: #111116;">
-        <%= link_to channel.name, channel_path(channel, page: params[:page]),
-                    style: "color:#e05c2a; text-decoration:none; font-size:0.95rem; font-weight:500;" %>
-        <% if channel.description.present? %>
-          <div style="color:#7a7880; font-size:0.8rem; margin-top:3px;">
-            <%= channel.description %>
+      <div style="padding:1.25rem 1.5rem; <%= i != 0 ? "border-top:1px solid rgba(255,255,255,0.06);" : "" %> background:#111116;">
+        <div class="d-flex justify-content-between align-items-center">
+
+          <div class="d-flex align-items-center gap-3">
+            <% if channel.photo.attached? %>
+              <img src="<%= url_for(channel.photo) %>"
+                   onclick="openLightbox(this.src)"
+                   style="width:90px; height:90px; border-radius:10px; object-fit:cover; cursor:pointer; border:1px solid rgba(255,255,255,0.08); transition: transform 0.2s;"
+                   onmouseover="this.style.transform='scale(1.05)'"
+                   onmouseout="this.style.transform='scale(1)'">
+            <% else %>
+              <div style="width:64px; height:64px; border-radius:10px; background:#18181f; border:1px solid rgba(255,255,255,0.07); display:flex; align-items:center; justify-content:center; color:#e05c2a; font-size:1.5rem; font-weight:600;">
+                <%= channel.name.first.upcase %>
+              </div>
+            <% end %>
+
+            <div>
+              <%= link_to channel.name, channel_path(channel, page: params[:page]),
+                          style: "color:#e05c2a; text-decoration:none; font-size:0.95rem; font-weight:500;" %>
+              <% if channel.description.present? %>
+                <div style="color:#7a7880; font-size:0.8rem; margin-top:3px;">
+                  <%= channel.description %>
+                </div>
+              <% end %>
+            </div>
           </div>
-        <% end %>
+
+          <div style="font-size:0.78rem; text-align:right;">
+            <div style="color:#e05c2a;"><%= channel.subscriptions.count %> subscribers</div>
+            <div style="color:#e05c2a; margin-top:2px;"><%= channel.videos.count %> videos</div>
+          </div>
+
+        </div>
       </div>
     <% end %>
   </div>
 
-  <div class="mb-4">
-    <%= paginate @channels %>
-  </div>
-
-  <div class="d-flex gap-2">
-    <% if user_signed_in? && (current_user.admin? || current_user.role == "creator") %>
-      <%= link_to "New Channel", new_channel_path, class: "vn-btn-primary" %>
-    <% end %>
-    <%= link_to "Back to Users", users_path, class: "vn-btn-outline" %>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div style="text-align:center; flex:1;">
+      <%= paginate @channels %>
+    </div>
+    <div class="d-flex gap-2">
+      <% if user_signed_in? && (current_user.admin? || current_user.role == "creator") %>
+        <%= link_to "New Channel", new_channel_path, class: "vn-btn-primary" %>
+      <% end %>
+    </div>
   </div>
 
 </div>
+
+<div id="lightbox" onclick="closeLightbox()"
+     style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:9999; align-items:center; justify-content:center; cursor:zoom-out;">
+  <img id="lightbox-img" style="max-width:90vw; max-height:90vh; border-radius:12px; object-fit:contain;">
+</div>
+
+<script>
+  function openLightbox(src) {
+    document.getElementById("lightbox-img").src = src;
+    document.getElementById("lightbox").style.display = "flex";
+  }
+  function closeLightbox() {
+    document.getElementById("lightbox").style.display = "none";
+  }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeLightbox();
+  });
+</script>
