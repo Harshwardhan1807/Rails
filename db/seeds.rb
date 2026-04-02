@@ -80,11 +80,11 @@ begin
   puts "Updating channel images..."
 
   images = [
-    "app/assets/images/sample1.jpg",
-    "app/assets/images/sample2.jpg",
-    "app/assets/images/sample3.jpg",
-    "app/assets/images/sample4.jpg",
-    "app/assets/images/sample5.jpg",
+    "db/seed_images/sample1.jpg",
+    "db/seed_images/sample2.jpg",
+    "db/seed_images/sample3.jpg",
+    "db/seed_images/sample4.jpg",
+    "db/seed_images/sample5.jpg",
   ]
 
   Channel.find_each.with_index do |channel, index|
