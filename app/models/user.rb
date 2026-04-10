@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :channels, through: :subscriptions
   has_many :owned_channels, class_name: "Channel", foreign_key: "owner_id", dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
