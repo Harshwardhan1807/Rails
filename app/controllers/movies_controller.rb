@@ -4,8 +4,9 @@ class MoviesController < ApplicationController
   def index
     if params[:query].present?
       @movies = Movie.where("title ILIKE ? OR description ILIKE ?", "%#{params[:query]}%", "%#{params[:query]}%")
+        .page(params[:page]).per(20)
     else
-      @movies = Movie.all.order(rating: :desc)
+      @movies = Movie.all.order(rating: :desc).page(params[:page]).per(20)
     end
   end
 
