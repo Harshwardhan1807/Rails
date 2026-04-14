@@ -1,0 +1,53 @@
+<div class="container py-4" style="max-width: 900px;">
+
+  <div class="d-flex gap-2 mb-4">
+    <%= link_to "Back", request.referer || movies_path, class: "vn-btn-outline" %>
+    <% if current_user.admin? %>
+      <%= button_to "Delete", movie_path(@movie),
+                    method: :delete,
+                    data: { turbo_confirm: "Are you sure?" },
+                    class: "vn-btn-danger",
+                    form: { class: "d-inline" } %>
+    <% end %>
+  </div>
+
+  <div class="row align-items-start g-4">
+
+    <div class="col-md-4">
+      <div style="border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.07); height:380px;">
+        <% if @movie.poster_url.present? %>
+          <img src="<%= @movie.poster_url %>"
+               style="width:100%; height:100%; object-fit:cover;"
+               onerror="this.parentElement.innerHTML='<div style=\'width:100%;height:100%;background:#18181f;display:flex;align-items:center;justify-content:center;color:#4a4850;\'>No Image</div>';">
+        <% else %>
+          <div style="width:100%; height:100%; background:#18181f; display:flex; align-items:center; justify-content:center; color:#4a4850;">
+            No Image
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="vn-card p-4">
+
+        <h2 style="font-weight:500; margin-bottom:0.5rem;"><%= @movie.title %></h2>
+
+        <div style="color:#e05c2a; font-size:0.9rem; margin-bottom:1rem;">⭐ <%= @movie.rating %></div>
+
+        <hr style="border-color:rgba(255,255,255,0.07); margin:1rem 0;">
+
+        <div style="font-size:0.9rem; line-height:2;">
+          <div><span style="color:#7a7880;">Duration</span> &nbsp; <%= @movie.duration %> mins</div>
+        </div>
+
+        <hr style="border-color:rgba(255,255,255,0.07); margin:1rem 0;">
+
+        <p style="color:#7a7880; font-size:0.875rem; line-height:1.75; margin:0;">
+          <%= @movie.description %>
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+</div>

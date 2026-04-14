@@ -14,6 +14,13 @@ Rails.application.routes.draw do
     member do
       patch :mark_as_read
     end
+  end
+  get "movies/top", to: "movies#top", as: "top_movies"
+  resources :movies, only: [:index, :show, :destroy]
+  resources :notifications, only: [:index, :destroy] do
+    member do
+      patch :mark_as_read
+    end
     collection do
       patch :mark_all_as_read
       patch :mark_all_as_unread

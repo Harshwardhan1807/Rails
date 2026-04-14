@@ -88,7 +88,7 @@ begin
   ]
 
   Channel.find_each.with_index do |channel, index|
-    channel.photo.purge if channel.photo.attached?
+    next if channel.photo.attached?
 
     image_path = Rails.root.join(images[index % images.length])
 
@@ -103,3 +103,36 @@ begin
 rescue => e
   puts "Error seeding database: #{e.message}"
 end
+
+queries = ["action", "comedy", "drama", "thriller", "avengers"]
+
+all_movies = []
+
+queries.each do |query|
+  (1..10).each do |page|
+    results = OmdbService.search_movies(query, page)
+    all_movies += results
+  end
+end
+
+cnt = 0
+all_movies.each do |movie|
+  data = OmdbService.fetch_movie_by_id(movie["imdbID"])
+  next unless data
+
+  duration = data[:duration]
+  return if duration.blank? || duration == "N/A"
+
+  duration = duration.to_i
+  duration = 125 if duration < 30
+
+  Movie.find_or_create_by!(imdb_id: data[:imdb_id]) do |m|
+    m.title = data[:title]
+    m.description = data[:description]
+    m.duration = duration
+    m.poster_url = data[:poster_url]
+    m.rating = data[:rating]
+  end
+  cnt += 1
+end
+puts "Added #{cnt} movies"
